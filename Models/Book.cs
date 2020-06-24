@@ -3,6 +3,7 @@ namespace TodoApi.Models
     public class Book 
     {
         // define properties of the Book obj
+        public int BookId { get; set; }
         public string Title { get; set; }
         public string Author { get; set; }
         public int Chapters { get; set; }
