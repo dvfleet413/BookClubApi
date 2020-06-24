@@ -1,4 +1,4 @@
-namespace TodoApi.Models
+namespace BookClubApi.Models
 {
     public class Book 
     {

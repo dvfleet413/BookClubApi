@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace TodoApi.Migrations
+namespace BookClubApi.Migrations
 {
     public partial class AddBook : Migration
     {

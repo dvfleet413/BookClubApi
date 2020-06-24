@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using TodoApi.Models;
+using BookClubApi.Models;
 
-namespace TodoApi.Migrations
+namespace BookClubApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -18,7 +18,7 @@ namespace TodoApi.Migrations
                 .HasAnnotation("ProductVersion", "3.1.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            modelBuilder.Entity("TodoApi.Models.Book", b =>
+            modelBuilder.Entity("BookClubApi.Models.Book", b =>
                 {
                     b.Property<int>("BookId")
                         .ValueGeneratedOnAdd()

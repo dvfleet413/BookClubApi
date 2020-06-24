@@ -11,9 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using TodoApi.Models;
+using BookClubApi.Models;
 
-namespace TodoApi
+namespace BookClubApi
 {
     public class Startup
     {
