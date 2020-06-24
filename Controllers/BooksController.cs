@@ -13,32 +13,35 @@ namespace BookClubApi.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
+        private readonly IBookRepository _bookRepository;
         private readonly AppDbContext _context;
 
-        public BooksController(AppDbContext context)
+        public BooksController(IBookRepository bookRepository, AppDbContext context)
         {
+            _bookRepository = bookRepository;
             _context = context;
         }
 
         // GET: api/Books
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Book>>> GetBooks()
+        public IActionResult GetBooks()
         {
-            return await _context.Books.ToListAsync();
+            var result = _bookRepository.AllBooks;
+            return Ok(result);
         }
 
         // GET: api/Books/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Book>> GetBook(int id)
+        public IActionResult GetBook(int id)
         {
-            var book = await _context.Books.FindAsync(id);
+            var book = _bookRepository.GetBookById(id);
 
             if (book == null)
             {
-                return NotFound();
+                return NotFound(id);
             }
 
-            return book;
+            return Ok(book);
         }
 
         // PUT: api/Books/5

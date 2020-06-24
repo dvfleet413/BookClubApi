@@ -28,6 +28,7 @@ namespace BookClubApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<IBookRepository, BookRepository>();
             // Add the DbContext and specify to use postres, using the default connection string in appsettings.json
             services.AddDbContext<AppDbContext>(options =>
                 options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
