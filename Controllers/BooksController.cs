@@ -80,12 +80,11 @@ namespace BookClubApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Book>> PostBook(Book book)
+        public IActionResult PostBook(Book book)
         {
-            _context.Books.Add(book);
-            await _context.SaveChangesAsync();
+            var newBook = _bookRepository.AddBook(book);
 
-            return CreatedAtAction(nameof(GetBook), new { id = book.BookId }, book);
+            return Ok(newBook);
         }
 
         // DELETE: api/Books/5

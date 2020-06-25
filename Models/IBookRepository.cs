@@ -6,6 +6,7 @@ namespace BookClubApi.Models
     {
         IEnumerable<Book> AllBooks { get; }
         Book CurrentBook { get; }
+        Book AddBook(Book book);
         Book GetBookById(int BookId);
         Book DeleteBook(int BookId);
     }

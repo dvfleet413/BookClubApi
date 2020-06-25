@@ -28,7 +28,14 @@ namespace BookClubApi.Models
 
         public Book GetBookById(int BookId)
         {
-            return _appDbContext.Books.First(b => b.BookId == BookId);
+            return _appDbContext.Books.FirstOrDefault(b => b.BookId == BookId);
+        }
+
+        public Book AddBook(Book book)
+        {
+            _appDbContext.Books.Add(book);
+            _appDbContext.SaveChanges();
+            return book;
         }
 
         public Book DeleteBook(int BookId)
@@ -38,5 +45,6 @@ namespace BookClubApi.Models
             _appDbContext.SaveChanges();
             return book;
         }
+
     }
 }
