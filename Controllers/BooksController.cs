@@ -90,23 +90,15 @@ namespace BookClubApi.Controllers
 
         // DELETE: api/Books/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Book>> DeleteBook(int id)
+        public IActionResult DeleteBook(int id)
         {
-            var book = await _context.Books.FindAsync(id);
-            if (book == null)
-            {
-                return NotFound();
-            }
-
-            _context.Books.Remove(book);
-            await _context.SaveChangesAsync();
-
-            return book;
+            var book = _bookRepository.DeleteBook(id);
+            return Ok(book);
         }
 
         private bool BookExists(int id)
         {
-            return _context.Books.Any(e => e.BookId == id);
+            return _bookRepository.AllBooks.Any(e => e.BookId == id);
         }
     }
 }
