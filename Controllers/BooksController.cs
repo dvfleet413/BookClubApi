@@ -48,18 +48,16 @@ namespace BookClubApi.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBook(int id, Book book)
+        public IActionResult PutBook(int id, Book book)
         {
             if (id != book.BookId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(book).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                _bookRepository.UpdateBook(id, book);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -73,7 +71,7 @@ namespace BookClubApi.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(book);
         }
 
         // POST: api/Books

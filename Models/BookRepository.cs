@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookClubApi.Models
 {
@@ -38,6 +39,13 @@ namespace BookClubApi.Models
             return book;
         }
 
+        public Book UpdateBook(int BookId, Book book)
+        {
+            _appDbContext.Entry(book).State = EntityState.Modified;
+            _appDbContext.SaveChanges();
+            return book;
+        }
+
         public Book DeleteBook(int BookId)
         {
             var book = GetBookById(BookId);
@@ -46,5 +54,6 @@ namespace BookClubApi.Models
             return book;
         }
 
+        
     }
 }

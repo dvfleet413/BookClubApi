@@ -8,6 +8,7 @@ namespace BookClubApi.Models
         Book CurrentBook { get; }
         Book AddBook(Book book);
         Book GetBookById(int BookId);
+        Book UpdateBook(int BookId, Book book);
         Book DeleteBook(int BookId);
     }
 }
