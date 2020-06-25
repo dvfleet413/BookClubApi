@@ -14,12 +14,10 @@ namespace BookClubApi.Controllers
     public class BooksController : ControllerBase
     {
         private readonly IBookRepository _bookRepository;
-        private readonly AppDbContext _context;
 
-        public BooksController(IBookRepository bookRepository, AppDbContext context)
+        public BooksController(IBookRepository bookRepository)
         {
             _bookRepository = bookRepository;
-            _context = context;
         }
 
         // GET: api/Books
