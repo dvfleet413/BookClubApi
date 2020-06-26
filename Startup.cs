@@ -12,7 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using BookClubApi.Models;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -33,9 +32,11 @@ namespace BookClubApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddControllers();
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddControllers()
+                .AddNewtonsoftJson();
+
             services.AddScoped<IBookRepository, BookRepository>();
+            services.AddScoped<IAuthRepository, AuthRepository>();
 
 
             // Add the DbContext and specify to use postres, using the default connection string in appsettings.json
