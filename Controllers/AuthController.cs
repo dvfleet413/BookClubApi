@@ -77,6 +77,7 @@ namespace BookClubApi.Controllers
             return Ok(new { tokenString, user });
         }
 
+        // GET "/api/auth/getcurrentuser" requires "Auth" header containing JWT
         [HttpGet("getcurrentuser")]
         public async Task<IActionResult> GetCurrentUser([FromHeader] string auth)
         {
@@ -84,7 +85,7 @@ namespace BookClubApi.Controllers
             var jwt = tokenHandler.ReadJwtToken(auth);
             var username = jwt.Claims.FirstOrDefault(c => c.Type == "unique_name").Value;
             var user = await _authRepository.GetUserByUsername(username);
-            return Ok();
+            return Ok(user.Username);
         }
     }
 }
