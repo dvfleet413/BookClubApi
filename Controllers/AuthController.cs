@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using BookClubApi.Models;
+using BookClubApi.DTOs;
+using System.Threading.Tasks;
 
 namespace BookClubApi.Controllers
 {
@@ -12,6 +14,29 @@ namespace BookClubApi.Controllers
         {
             _authRepository = authRepository;
         }
-        
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] RegisterUserDto registerUserDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            registerUserDto.Username = registerUserDto.Username.ToLower();
+
+            if (await _authRepository.UserExists(registerUserDto.Username))
+            {
+                return BadRequest("Usename is already taken.");
+            }
+
+            var newUser = new User {
+                Username = registerUserDto.Username
+            };
+
+            await _authRepository.Register(newUser, registerUserDto.Password);
+
+            return Ok(newUser);
+        }
     }
 }
