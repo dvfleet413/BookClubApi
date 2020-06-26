@@ -15,6 +15,7 @@ namespace BookClubApi.Controllers
             _authRepository = authRepository;
         }
 
+        // POST "/api/auth/register"
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterUserDto registerUserDto)
         {
