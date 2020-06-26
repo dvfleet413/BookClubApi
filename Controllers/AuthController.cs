@@ -8,6 +8,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System;
+using System.Linq;
 
 namespace BookClubApi.Controllers
 {
@@ -74,6 +75,16 @@ namespace BookClubApi.Controllers
             var tokenString = tokenHandler.WriteToken(token);
 
             return Ok(new { tokenString, user });
+        }
+
+        [HttpGet("getcurrentuser")]
+        public async Task<IActionResult> GetCurrentUser([FromHeader] string auth)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwt = tokenHandler.ReadJwtToken(auth);
+            var username = jwt.Claims.FirstOrDefault(c => c.Type == "unique_name").Value;
+
+            return Ok();
         }
     }
 }
