@@ -14,7 +14,7 @@ namespace BookClubApi.Controllers
     [ApiController]
     // By decorating this controller with following attribute, we bypass the AuthorizationFilter set up in Startup.cs
     // [AllowAnonymous]
-    public class BooksController : ControllerBase
+    public class BooksController : Controller
     {
         private readonly IBookRepository _bookRepository;
 
