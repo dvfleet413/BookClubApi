@@ -57,7 +57,7 @@ namespace BookClubApi.Controllers
                 return Unauthorized();
             }
 
-            // Generate JWT
+            // Generate JWT and return it in response
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_configuration.GetSection("AppSettings:Token").Value);
             var tokenDescriptor = new SecurityTokenDescriptor
@@ -73,7 +73,7 @@ namespace BookClubApi.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
 
-            return Ok(new { tokenString });
+            return Ok(new { tokenString, user });
         }
     }
 }
