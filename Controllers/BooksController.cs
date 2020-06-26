@@ -6,11 +6,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BookClubApi.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookClubApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // By decorating this controller with following attribute, we bypass the AuthorizationFilter set up in Startup.cs
+    // [AllowAnonymous]
     public class BooksController : ControllerBase
     {
         private readonly IBookRepository _bookRepository;
