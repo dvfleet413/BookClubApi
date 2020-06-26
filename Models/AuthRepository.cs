@@ -70,5 +70,10 @@ namespace BookClubApi.Models
             }
             return false;
         }
+
+        public async Task<User> GetUserByUsername(string username)
+        {
+            return await _appDbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
+        }
     }
 }

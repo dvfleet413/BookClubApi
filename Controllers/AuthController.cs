@@ -83,7 +83,7 @@ namespace BookClubApi.Controllers
             var tokenHandler = new JwtSecurityTokenHandler();
             var jwt = tokenHandler.ReadJwtToken(auth);
             var username = jwt.Claims.FirstOrDefault(c => c.Type == "unique_name").Value;
-
+            var user = await _authRepository.GetUserByUsername(username);
             return Ok();
         }
     }
