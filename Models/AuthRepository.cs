@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookClubApi.Models
 {
@@ -9,9 +10,34 @@ namespace BookClubApi.Models
         {
             _appDbContext = appDbContext;
         }
-        public Task<User> Login(string username, string pasword)
+        public async Task<User> Login(string username, string password)
         {
-            throw new System.NotImplementedException();
+            var user = await _appDbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
+            if (user == null)
+            {
+                return null;
+            }
+
+            if(!VerifyPassword(password, user.HashedPassword, user.PasswordSalt))
+            {
+                return null;
+            }
+
+            return user;
+        }
+
+        private bool VerifyPassword(string password, byte[] hashedPassword, byte[] salt)
+        {
+            using(var hmac = new System.Security.Cryptography.HMACSHA512(salt)){ 
+                var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
+                for (int i = 0; i < computedHash.Length; i++){
+                    if(computedHash[i] != hashedPassword[i]) 
+                    {
+                        return false;
+                    }
+                }    
+            }
+            return true;
         }
 
         public async Task<User> Register(User user, string password)
@@ -36,9 +62,13 @@ namespace BookClubApi.Models
             }
         }
 
-        public Task<bool> UserExists(string username)
+        public async Task<bool> UserExists(string username)
         {
-            throw new System.NotImplementedException();
+            if (await _appDbContext.Users.AnyAsync(u => u.Username == username))
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
