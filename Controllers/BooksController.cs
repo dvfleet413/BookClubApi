@@ -45,6 +45,14 @@ namespace BookClubApi.Controllers
             return Ok(book);
         }
 
+        // GET: api/Books/current
+        [HttpGet("current")]
+        public IActionResult GetCurrentBook()
+        {
+            var result = _bookRepository.CurrentBook;
+            return Ok(result);
+        }
+
         // PUT: api/Books/5
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
