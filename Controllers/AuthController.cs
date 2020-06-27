@@ -9,6 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Cors;
 
 namespace BookClubApi.Controllers
 {
@@ -73,6 +75,9 @@ namespace BookClubApi.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
+
+            // Set cookie to store token in order to persist session
+            HttpContext.Response.Cookies.Append("Token", tokenString);
 
             return Ok(new { tokenString, user });
         }

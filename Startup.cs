@@ -56,10 +56,11 @@ namespace BookClubApi
 
             app.UseRouting();
 
-            app.UseCors(x => x
-                .AllowAnyOrigin()
+            app.UseCors(builder => builder
+                .AllowAnyHeader()
                 .AllowAnyMethod()
-                .AllowAnyHeader());
+                .WithOrigins("http://localhost:3000")
+                .AllowCredentials());
 
             app.UseAuthentication();
             app.UseAuthorization();
