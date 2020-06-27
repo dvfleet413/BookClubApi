@@ -11,6 +11,7 @@ using System;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Cors;
+using System.Net;
 
 namespace BookClubApi.Controllers
 {
@@ -83,14 +84,24 @@ namespace BookClubApi.Controllers
         }
 
         // GET "/api/auth/getcurrentuser" requires "Auth" header containing JWT
-        [HttpGet("getcurrentuser")]
-        public async Task<IActionResult> GetCurrentUser([FromHeader] string auth)
+        [HttpPost("getcurrentuser")]
+        public async Task<IActionResult> GetCurrentUser()
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var jwt = tokenHandler.ReadJwtToken(auth);
-            var username = jwt.Claims.FirstOrDefault(c => c.Type == "unique_name").Value;
-            var user = await _authRepository.GetUserByUsername(username);
-            return Ok(user.Username);
+            // var token = request.Cookies.value
+            
+            var cookieList = HttpContext.Request.Cookies.ToList();
+            foreach (var pair in cookieList)
+            {
+                if(pair.Key == "Token")
+                {
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var jwt = tokenHandler.ReadJwtToken(pair.Value);
+                    var username = jwt.Claims.FirstOrDefault(c => c.Type == "unique_name").Value;
+                    var user = await _authRepository.GetUserByUsername(username);
+                    return Ok(user.Username);
+                }
+            }
+            return NotFound("No session cookie sent in request");
         }
     }
 }
