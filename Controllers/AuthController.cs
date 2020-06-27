@@ -98,6 +98,10 @@ namespace BookClubApi.Controllers
                     var jwt = tokenHandler.ReadJwtToken(pair.Value);
                     var username = jwt.Claims.FirstOrDefault(c => c.Type == "unique_name").Value;
                     var user = await _authRepository.GetUserByUsername(username);
+                    if(user == null)
+                    {
+                        return NotFound("Unable to find user with that username");
+                    }
                     return Ok(user.Username);
                 }
             }
