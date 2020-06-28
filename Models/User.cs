@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace BookClubApi.Models
 {
     public class User 
@@ -8,5 +10,6 @@ namespace BookClubApi.Models
         public bool IsActive { get; set; }
         public byte[] PasswordSalt {get; set; }
         public byte[] HashedPassword { get; set;}
+        public List<Reading> Readings { get; set; }
     }
 }

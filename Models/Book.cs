@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace BookClubApi.Models
 {
     public class Book 
@@ -9,5 +11,7 @@ namespace BookClubApi.Models
         public string ImageUrl { get; set; }
         public int Chapters { get; set; }
         public bool IsCurrentBook { get; set; }
+
+        public List<Reading> Readings { get; set; }
     }
 }
