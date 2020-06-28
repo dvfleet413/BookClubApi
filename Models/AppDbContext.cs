@@ -12,11 +12,13 @@ namespace BookClubApi.Models
         // state which entities DbContext will manage
         public DbSet<Book> Books { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Reading> Readings { get; set; }
 
+        // this override method is required to establish many to many relationship. feature may be added to EF Core soon to do this by default
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Reading>()
-                .HasKey(t => new { t.BookId, t.UserId });
+                .HasKey(r => new { r.BookId, r.UserId });
 
             modelBuilder.Entity<Reading>()
                 .HasOne(r => r.Book)

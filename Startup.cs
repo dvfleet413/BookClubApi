@@ -37,6 +37,7 @@ namespace BookClubApi
 
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
+            services.AddScoped<IReadingRepository, ReadingRepository>();
 
 
             // Add the DbContext and specify to use postres, using the default connection string in appsettings.json

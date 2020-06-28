@@ -29,7 +29,8 @@ namespace BookClubApi.Models
 
         public Book GetBookById(int BookId)
         {
-            return _appDbContext.Books.FirstOrDefault(b => b.BookId == BookId);
+            var book = _appDbContext.Books.FirstOrDefault(b => b.BookId == BookId);
+            return book;
         }
 
         public Book AddBook(Book book)
