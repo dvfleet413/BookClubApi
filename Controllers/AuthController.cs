@@ -80,7 +80,7 @@ namespace BookClubApi.Controllers
             // Set cookie to store token in order to persist session
             HttpContext.Response.Cookies.Append("Token", tokenString);
 
-            return Ok(new { tokenString, user });
+            return Ok(user);
         }
 
         // POST: "/api/auth/getcurrentuser"

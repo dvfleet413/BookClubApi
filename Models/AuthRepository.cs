@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using BookClubApi.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace BookClubApi.Models
@@ -10,7 +12,7 @@ namespace BookClubApi.Models
         {
             _appDbContext = appDbContext;
         }
-        public async Task<User> Login(string username, string password)
+        public async Task<ResponseUserDto> Login(string username, string password)
         {
             var user = await _appDbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
             if (user == null)
@@ -23,7 +25,24 @@ namespace BookClubApi.Models
                 return null;
             }
 
-            return user;
+            List<Book> books = new List<Book>();
+            if (user.Readings != null)
+            {
+                foreach(var reading in user.Readings)
+                {
+                    books.Add(reading.Book);
+                }
+            }
+
+            var userDto = new ResponseUserDto {
+                UserId = user.UserId,
+                Username = user.Username,
+                Email = user.Email,
+                IsActive = user.IsActive,
+                Books = books
+            };
+
+            return userDto;
         }
 
         private bool VerifyPassword(string password, byte[] hashedPassword, byte[] salt)
