@@ -83,12 +83,10 @@ namespace BookClubApi.Controllers
             return Ok(new { tokenString, user });
         }
 
-        // GET "/api/auth/getcurrentuser" requires "Auth" header containing JWT
+        // POST: "/api/auth/getcurrentuser"
         [HttpPost("getcurrentuser")]
         public async Task<IActionResult> GetCurrentUser()
-        {
-            // var token = request.Cookies.value
-            
+        {            
             var cookieList = HttpContext.Request.Cookies.ToList();
             foreach (var pair in cookieList)
             {
@@ -106,6 +104,14 @@ namespace BookClubApi.Controllers
                 }
             }
             return NotFound("No session cookie sent in request");
+        }
+
+        // POST: "/api/auth/logout"
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            HttpContext.Response.Cookies.Delete("Token");
+            return Ok();
         }
     }
 }
