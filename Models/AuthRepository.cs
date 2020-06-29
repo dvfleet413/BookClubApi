@@ -90,9 +90,28 @@ namespace BookClubApi.Models
             return false;
         }
 
-        public async Task<User> GetUserByUsername(string username)
+        public async Task<ResponseUserDto> GetUserByUsername(string username)
         {
-            return await _appDbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
+            var user =  await _appDbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
+
+            List<Book> books = new List<Book>();
+            if (user.Readings != null)
+            {
+                foreach(var reading in user.Readings)
+                {
+                    books.Add(reading.Book);
+                }
+            }
+
+            var userDto = new ResponseUserDto {
+                UserId = user.UserId,
+                Username = user.Username,
+                Email = user.Email,
+                IsActive = user.IsActive,
+                Books = books
+            };
+
+            return userDto;
         }
     }
 }

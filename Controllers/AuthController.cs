@@ -100,7 +100,7 @@ namespace BookClubApi.Controllers
                     {
                         return NotFound("Unable to find user with that username");
                     }
-                    return Ok(user.Username);
+                    return Ok(user);
                 }
             }
             return NotFound("No session cookie sent in request");
