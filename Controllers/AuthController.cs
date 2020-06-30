@@ -53,9 +53,9 @@ namespace BookClubApi.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginUserDto loginUserDto)
+        public IActionResult Login([FromBody] LoginUserDto loginUserDto)
         {
-            var user = await _authRepository.Login(loginUserDto.Username.ToLower(), loginUserDto.Password);
+            var user = _authRepository.Login(loginUserDto.Username.ToLower(), loginUserDto.Password);
             if (user == null)
             {
                 return Unauthorized();

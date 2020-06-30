@@ -13,9 +13,9 @@ namespace BookClubApi.Models
         {
             _appDbContext = appDbContext;
         }
-        public async Task<ResponseUserDto> Login(string username, string password)
+        public ResponseUserDto Login(string username, string password)
         {
-            var user = await _appDbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
+            var user = _appDbContext.Users.Where(u => u.Username == username).Include(u => u.Readings).ThenInclude(r => r.Book).ToList()[0];
             if (user == null)
             {
                 return null;
