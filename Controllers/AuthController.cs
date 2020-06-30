@@ -40,16 +40,22 @@ namespace BookClubApi.Controllers
 
             if (await _authRepository.UserExists(registerUserDto.Username))
             {
-                return BadRequest("Usename is already taken.");
+                return BadRequest("Username is already taken.");
+            }
+
+            if(registerUserDto.Password != registerUserDto.PasswordConfirm)
+            {
+                return BadRequest("Password and password confirmation don't match.");
             }
 
             var newUser = new User {
-                Username = registerUserDto.Username
+                Username = registerUserDto.Username,
+                Email = registerUserDto.Email
             };
 
-            await _authRepository.Register(newUser, registerUserDto.Password);
+            var userDto = await _authRepository.Register(newUser, registerUserDto.Password);
 
-            return Ok(newUser);
+            return Ok(userDto);
         }
 
         [HttpPost("login")]

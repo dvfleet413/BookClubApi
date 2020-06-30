@@ -43,7 +43,7 @@ namespace BookClubApi.Models
             return true;
         }
 
-        public async Task<User> Register(User user, string password)
+        public async Task<ResponseUserDto> Register(User user, string password)
         {
             byte[] hashedPassword, passwordSalt;
             CreatePasswordHash(password, out hashedPassword, out passwordSalt);
@@ -54,7 +54,7 @@ namespace BookClubApi.Models
             await _appDbContext.Users.AddAsync(user);
             await _appDbContext.SaveChangesAsync();
 
-            return user;
+            return ToUserDto(user);
         }
 
         private void CreatePasswordHash(string password, out byte[] hashedPassword, out byte[] passwordSalt)
