@@ -8,6 +8,6 @@ namespace BookClubApi.Models
         Task<User> Register(User user, string password); 
         Task<ResponseUserDto> Login(string username, string pasword);
         Task<bool> UserExists(string username);
-        Task<ResponseUserDto> GetUserByUsername(string username);
+        ResponseUserDto GetUserByUsername(string username);
     }
 }

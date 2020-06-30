@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BookClubApi.DTOs;
 using Microsoft.EntityFrameworkCore;
@@ -24,31 +25,7 @@ namespace BookClubApi.Models
             {
                 return null;
             }
-
-            List<ResponseBookDto> books = new List<ResponseBookDto>();
-            if (user.Readings != null)
-            {
-                foreach(var reading in user.Readings)
-                {
-                    books.Add(new ResponseBookDto {
-                        BookId = reading.Book.BookId,
-                        Title = reading.Book.Title,
-                        Author = reading.Book.Author,
-                        ImageUrl = reading.Book.ImageUrl,
-                        Chapters = reading.Book.Chapters,
-                        IsCurrentBok = reading.Book.IsCurrentBook
-                    });
-                }
-            }
-
-            var userDto = new ResponseUserDto {
-                UserId = user.UserId,
-                Username = user.Username,
-                Email = user.Email,
-                IsActive = user.IsActive,
-                Books = books
-            };
-
+            var userDto = ToUserDto(user);
             return userDto;
         }
 
@@ -97,10 +74,15 @@ namespace BookClubApi.Models
             return false;
         }
 
-        public async Task<ResponseUserDto> GetUserByUsername(string username)
+        public ResponseUserDto GetUserByUsername(string username)
         {
-            var user =  await _appDbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
+            var user =  _appDbContext.Users.Where(u => u.Username == username).Include(u => u.Readings).ThenInclude(r => r.Book).ToList()[0];
+            var userDto = ToUserDto(user);
+            return userDto;
+        }
 
+        private ResponseUserDto ToUserDto(User user)
+        {
             List<ResponseBookDto> books = new List<ResponseBookDto>();
             if (user.Readings != null)
             {
@@ -128,4 +110,6 @@ namespace BookClubApi.Models
             return userDto;
         }
     }
+
+    
 }

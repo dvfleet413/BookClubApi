@@ -85,7 +85,7 @@ namespace BookClubApi.Controllers
 
         // POST: "/api/auth/getcurrentuser"
         [HttpPost("getcurrentuser")]
-        public async Task<IActionResult> GetCurrentUser()
+        public IActionResult GetCurrentUser()
         {            
             var cookieList = HttpContext.Request.Cookies.ToList();
             foreach (var pair in cookieList)
@@ -95,7 +95,7 @@ namespace BookClubApi.Controllers
                     var tokenHandler = new JwtSecurityTokenHandler();
                     var jwt = tokenHandler.ReadJwtToken(pair.Value);
                     var username = jwt.Claims.FirstOrDefault(c => c.Type == "unique_name").Value;
-                    var user = await _authRepository.GetUserByUsername(username);
+                    var user = _authRepository.GetUserByUsername(username);
                     if(user == null)
                     {
                         return NotFound("Unable to find user with that username");
