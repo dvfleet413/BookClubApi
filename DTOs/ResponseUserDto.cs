@@ -9,6 +9,6 @@ namespace BookClubApi.DTOs
         public string Username { get; set; }
         public string Email { get; set; }
         public bool IsActive { get; set; }
-        public IEnumerable<Book> Books { get; set; }
+        public IEnumerable<ResponseBookDto> Books { get; set; }
     }
 }

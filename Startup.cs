@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace BookClubApi
 {
@@ -32,12 +34,15 @@ namespace BookClubApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddControllers()
-                .AddNewtonsoftJson();
+            services.AddControllers().AddNewtonsoftJson(options => 
+            {
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            });
 
             services.AddScoped<IBookRepository, BookRepository>();
             services.AddScoped<IAuthRepository, AuthRepository>();
             services.AddScoped<IReadingRepository, ReadingRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
 
             // Add the DbContext and specify to use postres, using the default connection string in appsettings.json, or using Heroku environment variable
@@ -72,7 +77,7 @@ namespace BookClubApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext appDbContext = null)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext appDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -91,7 +96,7 @@ namespace BookClubApi
             app.UseCors(builder => builder
                 .AllowAnyHeader()
                 .AllowAnyMethod()
-                .WithOrigins("http://localhost:3000")
+                .WithOrigins("http://localhost:3000", "https://second-chance-book-club.herokuapp.com")
                 .AllowCredentials());
 
             app.UseAuthentication();

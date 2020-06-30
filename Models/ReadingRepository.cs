@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace BookClubApi.Models
 {
@@ -17,9 +18,9 @@ namespace BookClubApi.Models
             return reading;
         }
 
-        public IEnumerable<Reading> GetReadingsByUserId(int userId)
+        public List<Reading> GetReadingsByUserId(int userId)
         {
-            return _appDbContext.Readings.Where(r => r.UserId == userId);
+            return _appDbContext.Readings.Where(r => r.UserId == userId).Include(r => r.Book).Include(r => r.User).ToList();
         }
     }
 }

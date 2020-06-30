@@ -25,12 +25,19 @@ namespace BookClubApi.Models
                 return null;
             }
 
-            List<Book> books = new List<Book>();
+            List<ResponseBookDto> books = new List<ResponseBookDto>();
             if (user.Readings != null)
             {
                 foreach(var reading in user.Readings)
                 {
-                    books.Add(reading.Book);
+                    books.Add(new ResponseBookDto {
+                        BookId = reading.Book.BookId,
+                        Title = reading.Book.Title,
+                        Author = reading.Book.Author,
+                        ImageUrl = reading.Book.ImageUrl,
+                        Chapters = reading.Book.Chapters,
+                        IsCurrentBok = reading.Book.IsCurrentBook
+                    });
                 }
             }
 
@@ -94,12 +101,19 @@ namespace BookClubApi.Models
         {
             var user =  await _appDbContext.Users.FirstOrDefaultAsync(u => u.Username == username);
 
-            List<Book> books = new List<Book>();
+            List<ResponseBookDto> books = new List<ResponseBookDto>();
             if (user.Readings != null)
             {
                 foreach(var reading in user.Readings)
                 {
-                    books.Add(reading.Book);
+                    books.Add(new ResponseBookDto {
+                        BookId = reading.Book.BookId,
+                        Title = reading.Book.Title,
+                        Author = reading.Book.Author,
+                        ImageUrl = reading.Book.ImageUrl,
+                        Chapters = reading.Book.Chapters,
+                        IsCurrentBok = reading.Book.IsCurrentBook
+                    });
                 }
             }
 

@@ -25,6 +25,7 @@ namespace BookClubApi.Models
                 .WithMany(b => b.Readings)
                 .HasForeignKey(r => r.BookId);
 
+
             modelBuilder.Entity<Reading>()
                 .HasOne(r => r.User)
                 .WithMany(u => u.Readings)

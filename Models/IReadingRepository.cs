@@ -5,6 +5,6 @@ namespace BookClubApi.Models
     public interface IReadingRepository
     {
         Reading AddReading(Reading reading);
-        IEnumerable<Reading> GetReadingsByUserId(int userId);
+        List<Reading> GetReadingsByUserId(int userId);
     }
 }
