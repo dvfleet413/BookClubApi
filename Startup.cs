@@ -49,7 +49,7 @@ namespace BookClubApi
 
                     if (env == "Development")
                     {
-                        connStr = Configuration.GetConnectionString("ApplicationDbContext");
+                        connStr = Configuration.GetConnectionString("DefaultConnection");
                     }
                     else
                     {
@@ -72,7 +72,7 @@ namespace BookClubApi
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext appDbContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDbContext appDbContext = null)
         {
             if (env.IsDevelopment())
             {
